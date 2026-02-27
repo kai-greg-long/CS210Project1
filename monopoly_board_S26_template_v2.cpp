@@ -18,16 +18,14 @@ public:
     int value;
     int rent;
 
-    MonopolySpace() {
-        // TODO: define default constructor (recommended)
-        propertyName = "";
-        propertyColor = "";
-        value = 0;
-        rent = 0;
-    }
+    MonopolySpace() : propertyName(""), propertyColor(""), value(0), rent(0) {}
 
-    MonopolySpace(string propertyName, string propertyColor, int value, int rent) {
-        /* TODO: Define overloaded constructor here */
+    MonopolySpace(string propertyName, string propertyColor, int value, int rent)
+    : propertyName(propertyName),
+      propertyColor(propertyColor),
+      value(value),
+      rent(rent)
+    {
     }
 
     bool isEqual(MonopolySpace other) {
