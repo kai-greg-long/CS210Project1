@@ -29,8 +29,7 @@ public:
     }
 
     bool isEqual(MonopolySpace other) {
-        /* TODO: Define isEqual here (compare by name is fine if you enforce uniqueness) */
-        return false;
+        return propertyName == other.propertyName;
     }
 
     void print() {
