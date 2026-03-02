@@ -33,9 +33,7 @@ public:
     }
 
     void print() {
-        /* TODO: Define print here */
-        // Example style:
-        // cout << propertyName << " | " << propertyColor << " | $" << value << " | Rent " << rent;
+        cout << this->propertyName << endl << this->propertyColor << endl << this->value << endl << this->rent << endl;
     }
 };
 
@@ -80,6 +78,7 @@ public:
         passGoCount = 0;
     }
 
+
     // -------------------------------
     // Board Construction Policy (Reminder)
     // -------------------------------
@@ -95,27 +94,49 @@ public:
     // Core A: Add a Space with Capacity Enforcement
     // -------------------------------
     bool addSpace(T value) {
-        // TODO:
-        // - If nodeCount == MAX_SPACES return false (do not corrupt list)
-        // - Create new node
-        // - If empty list: head=tail=player=new, new->next=head
-        // - Else: tail->next=new, tail=new, tail->next=head
-        // - nodeCount++
-        cout << "addSpace unwritten" << endl;
-        return false;
+        if (nodeCount == MAX_SPACES) {
+            cout << "No capacity for spaces" << endl;
+            return false;
+        }
+        Node<T>* newNode = new Node<T>(value);
+
+        if (headNode == nullptr) {
+            // first node
+            headNode = newNode;
+            tailNode = newNode;
+            playerNode = newNode;
+            newNode->nextNode = headNode;
+        } else {
+            tailNode->nextNode = newNode;
+            tailNode = newNode;
+            tailNode->nextNode = headNode;
+        }
+        nodeCount++;
+        return true;
     }
 
     // -------------------------------
     // Core B: Add Multiple Spaces at Once
     // -------------------------------
-    int addMany(vector<T> values) {
+    int addMany(const vector<T>& values) {
         // TODO:
         // - Add sequentially until full
         // - Stop exactly when you reach MAX_SPACES
         // - Return number successfully added
         // - Do not corrupt pointers if capacity is exceeded
-        cout << "addMany unwritten" << endl;
-        return 0;
+        int added = 0;
+
+        for (T val : values) {
+            if (nodeCount != MAX_SPACES) {
+                if (addSpace(val)) {
+                    added++;
+                }
+            }
+            else {
+                break;
+            }
+        }
+        return added;
     }
 
     // -------------------------------
