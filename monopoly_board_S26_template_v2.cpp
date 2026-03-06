@@ -45,7 +45,6 @@ class Node {
 public:
     T data;
     Node<T>* nextNode;
-
     Node(T value) {
         data = value;
         nextNode = nullptr;
@@ -119,11 +118,7 @@ public:
     // Core B: Add Multiple Spaces at Once
     // -------------------------------
     int addMany(const vector<T>& values) {
-        // TODO:
-        // - Add sequentially until full
-        // - Stop exactly when you reach MAX_SPACES
-        // - Return number successfully added
-        // - Do not corrupt pointers if capacity is exceeded
+
         int added = 0;
 
         for (T val : values) {
@@ -149,7 +144,22 @@ public:
         // - Detect and track passing GO:
         //   increment passGoCount when a move crosses from tail back to head
         // - Must handle empty list safely
-        cout << "movePlayer unwritten" << endl;
+
+        if (playerNode == nullptr) { // if Player Node unassigned
+            playerNode = headNode;
+        } else {
+            for (int i = 0; i = steps; i++) {
+                playerNode = playerNode->nextNode;
+            }
+        }
+        if (playerNode == headNode) {
+            passGoCount++;
+        }
+        if (playerNode == tailNode) {
+            headNode = playerNode->nextNode;
+        }
+
+
     }
 
     int getPassGoCount() {
@@ -165,7 +175,8 @@ public:
         // - Must not infinite loop
         // - Must handle empty list
         // - Output must be deterministic and readable
-        cout << "printFromPlayer unwritten" << endl;
+
+
     }
 
     // Optional helper: print full board once (one full cycle)
