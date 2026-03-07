@@ -158,7 +158,9 @@ public:
         if (playerNode == tailNode) {
             headNode = playerNode->nextNode;
         }
-
+        if (nodeCount == 0) {
+            return;
+        }
 
     }
 
