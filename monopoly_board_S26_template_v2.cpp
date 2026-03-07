@@ -178,6 +178,14 @@ public:
         // - Must handle empty list
         // - Output must be deterministic and readable
 
+        for (int i = 0; i < count; i++) {
+            cout << playerNode->data << endl;
+        }
+        if (playerNode == nullptr) {
+            cout << "No spaces found";
+            return;
+        }
+
 
     }
 
