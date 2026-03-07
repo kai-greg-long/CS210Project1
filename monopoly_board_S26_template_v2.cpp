@@ -63,6 +63,9 @@ private:
 
     // player cursor for traversal-based gameplay
     Node<T>* playerNode;
+    //For Search
+    Node<T>* current;
+    Node<T>* previous;
 
     int nodeCount;
     int passGoCount;
@@ -189,13 +192,6 @@ public:
 
     }
 
-    // Optional helper: print full board once (one full cycle)
-    void printBoardOnce() {
-        // TODO:
-        // - Traverse exactly one full cycle and print each node
-        cout << "printBoardOnce unwritten" << endl;
-    }
-
     // -------------------------------
     // Advanced Option A (Level 1): removeByName
     // -------------------------------
@@ -209,8 +205,25 @@ public:
         // - Maintain circular link tail->next=head
         // - If playerNode points to deleted node, move playerNode to a safe node
         // - nodeCount--
-        cout << "removeByName unwritten" << endl;
-        return false;
+
+        current = headNode;
+        previous = tailNode;
+
+        if (headNode->propertyName == name) {
+            headNode = current->nextNode;
+            current->nextNode = headNode;
+            nodeCount--;
+        }
+        while (current->propertyName != name) {
+            current = current->nextNode;
+            previous = previous->nextNode;
+        }
+        if (current->propertyName == name) {
+            previous->nextNode = current->NextNode;
+            delete current;
+            nodeCount--;
+        }
+        return true;
     }
 
     // -------------------------------
