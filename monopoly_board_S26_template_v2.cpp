@@ -320,7 +320,7 @@ int main() {
 
     vector<MonopolySpace> spaces;
 
-    ifstream filein("C:\\Users\\kailo\\CLionProjects\\CS210Project1\\monopoly_spaces_full_data.txt");
+    ifstream filein("C:\\Users\\kailo\\CLionProjects\\CS210Project1\\monopoly_spaces.txt");
     if (filein.is_open()) {
 
         string line;
@@ -381,5 +381,13 @@ int main() {
     // Option B example:
     // board.mirrorBoard();
 
+    board.removeByName("Reading Railroad");
+    vector<string> brownProps = board.findByColor("Brown");
+    cout << brownProps[0] << endl;
+
     return 0;
+
+
+
+
 }
