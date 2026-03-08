@@ -181,14 +181,13 @@ public:
         // - Must handle empty list
         // - Output must be deterministic and readable
 
-        for (int i = 0; i < count; i++) {
-            cout << playerNode->data << endl;
-        }
         if (playerNode == nullptr) {
             cout << "No spaces found";
             return;
         }
-
+        for (int i = 0; i < count; i++) {
+            playerNode->data.print();
+        }
 
     }
 
@@ -234,21 +233,21 @@ public:
         // - Traverse ring exactly once
         // - Collect matching names in vector<string>
         // - Return matches
-        cout << "findByColor unwritten" << endl;
-        vector<string> matches;
-        return matches;
-    }
 
-    // -------------------------------
-    // Advanced Option B (Level 2): Mirror the Board (Circular Reversal)
-    // -------------------------------
-    void mirrorBoard() {
-        // TODO:
-        // - Reverse the direction of the circular list by reversing next pointers
-        // - Preserve circular structure
-        // - Correctly handle empty list and single-node list
-        // - Player cursor must remain on the same logical space after reversal
-        cout << "mirrorBoard unwritten" << endl;
+        vector<string> matches;
+        current = headNode;
+        current = current->nextNode;
+
+        while (current != headNode) {
+            if (current->propertyColor != color) {
+                current = current->nextNode;
+            }
+            if (current->propertyColor == color) {
+                matches.push_back(current->propertyName);
+            }
+        }
+
+        return matches;
     }
 
     // -------------------------------
@@ -258,8 +257,15 @@ public:
         // TODO:
         // - Must be O(n), traverse exactly once with correct stop condition
         // - Do NOT rely on nodeCount for this method
-        cout << "countSpaces unwritten" << endl;
-        return 0;
+
+        int count = 0;
+        current = headNode;
+        current = current->nextNode;
+        while (current != headNode) {
+            count++;
+            current = current->nextNode;
+        }
+        return count;
     }
 
     // -------------------------------
@@ -270,7 +276,14 @@ public:
         // - Safely delete all nodes
         // - Tip: if tailNode exists, break the cycle first: tailNode->nextNode = nullptr
         // - Then delete like a normal singly linked list
-        cout << "clear unwritten" << endl;
+
+        tailNode->nextNode = nullptr;
+        current = headNode;
+        int count = countSpaces();
+        for (int i = 0; i = count; i++) {
+            delete current;
+            current = current->nextNode;
+        }
     }
 };
 
