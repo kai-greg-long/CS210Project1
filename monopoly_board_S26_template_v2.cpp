@@ -3,6 +3,8 @@
 #include <vector>
 #include <cstdlib>
 #include <ctime>
+#include <fstream>
+#include <sstream>
 
 using namespace std;
 
@@ -315,6 +317,44 @@ int main() {
     // NOTE: This starter calls addSpace once to show the intended API,
     // but your final submission should build a meaningful board.
     board.addSpace(MonopolySpace("GO", "None", 0, 0));
+
+    vector<MonopolySpace> spaces;
+
+    ifstream filein("C:\\Users\\kailo\\CLionProjects\\CS210Project1\\monopoly_spaces_full_data.txt");
+    if (filein.is_open()) {
+
+        string line;
+
+        while (getline(filein, line)) {
+            string name;
+            string color;
+            int value;
+            int rent;
+
+            stringstream ss(line);
+
+            getline(ss, name, ',');
+            getline(ss, color, ',');
+
+            string valueStr;
+            string rentStr;
+
+            getline(ss, valueStr, ',');
+            getline(ss, rentStr, ',');
+
+            value = stoi(valueStr);
+            rent = stoi(rentStr);
+
+            MonopolySpace space(name, color, value, rent);
+            spaces.push_back(space);
+        }
+        filein.close();
+
+        board.addMany(spaces);
+    } else {
+        cout << "Unable to open file" << endl;
+    }
+
 
     // -------------------------------
     // Playable Traversal Loop
