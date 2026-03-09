@@ -77,6 +77,8 @@ public:
         headNode = nullptr;
         tailNode = nullptr;
         playerNode = nullptr;
+        current = nullptr;
+        previous = nullptr;
 
         nodeCount = 0;
         passGoCount = 0;
@@ -150,23 +152,20 @@ public:
         //   increment passGoCount when a move crosses from tail back to head
         // - Must handle empty list safely
 
-        if (playerNode == nullptr) { // if Player Node unassigned
-            playerNode = headNode;
-        } else {
-            for (int i = 0; i = steps; i++) {
-                playerNode = playerNode->nextNode;
-            }
-        }
-        if (playerNode == headNode) {
-            passGoCount++;
-        }
-        if (playerNode == tailNode) {
-            headNode = playerNode->nextNode;
-        }
-        if (nodeCount == 0) {
+        if (nodeCount == 0 || headNode == nullptr) {
             return;
         }
 
+        if (playerNode == nullptr) {
+            playerNode = headNode;
+        }
+
+        for (int i = 0; i < steps; i++) {
+            if (playerNode == tailNode) {
+                passGoCount++;
+            }
+            playerNode = playerNode->nextNode;
+        }
     }
 
     int getPassGoCount() {
@@ -183,14 +182,15 @@ public:
         // - Must handle empty list
         // - Output must be deterministic and readable
 
+        current = playerNode;
         if (playerNode == nullptr) {
-            cout << "No spaces found";
+            cout << "No spaces found" << endl;
             return;
         }
         for (int i = 0; i < count; i++) {
-            playerNode->data.print();
+            current->data.print();
+            current = current->nextNode;
         }
-
     }
 
     // -------------------------------
@@ -207,24 +207,43 @@ public:
         // - If playerNode points to deleted node, move playerNode to a safe node
         // - nodeCount--
 
+        if (headNode == nullptr) {
+            return false;
+        }
+
         current = headNode;
         previous = tailNode;
 
-        if (headNode->propertyName == name) {
-            headNode = current->nextNode;
-            current->nextNode = headNode;
-            nodeCount--;
-        }
-        while (current->propertyName != name) {
+        do {
+            if (current->data.propertyName == name) {
+                if (current == headNode && current == tailNode) {
+                    delete current;
+                    headNode = nullptr;
+                    tailNode = nullptr;
+                    playerNode = nullptr;
+                } else {
+                    if (current == headNode) {
+                        headNode = headNode->nextNode;
+                        tailNode->nextNode = headNode;
+                    }
+                    if (current == tailNode) {
+                        tailNode = previous;
+                        tailNode->nextNode = headNode;
+                    }
+                    previous->nextNode = current->nextNode;
+                    if (playerNode == current) {
+                        playerNode = current->nextNode;
+                    }
+                    delete current;
+                }
+                nodeCount--;
+                return true;
+            }
+            previous = current;
             current = current->nextNode;
-            previous = previous->nextNode;
-        }
-        if (current->propertyName == name) {
-            previous->nextNode = current->NextNode;
-            delete current;
-            nodeCount--;
-        }
-        return true;
+        } while (current != headNode);
+
+        return false;
     }
 
     // -------------------------------
@@ -237,17 +256,17 @@ public:
         // - Return matches
 
         vector<string> matches;
-        current = headNode;
-        current = current->nextNode;
-
-        while (current != headNode) {
-            if (current->propertyColor != color) {
-                current = current->nextNode;
-            }
-            if (current->propertyColor == color) {
-                matches.push_back(current->propertyName);
-            }
+        if (headNode == nullptr) {
+            return matches;
         }
+
+        current = headNode;
+        do {
+            if (current->data.propertyColor == color) {
+                matches.push_back(current->data.propertyName);
+            }
+            current = current->nextNode;
+        } while (current != headNode);
 
         return matches;
     }
@@ -260,13 +279,16 @@ public:
         // - Must be O(n), traverse exactly once with correct stop condition
         // - Do NOT rely on nodeCount for this method
 
+        if (headNode == nullptr) {
+            return 0;
+        }
+
         int count = 0;
         current = headNode;
-        current = current->nextNode;
-        while (current != headNode) {
+        do {
             count++;
             current = current->nextNode;
-        }
+        } while (current != headNode);
         return count;
     }
 
@@ -279,13 +301,23 @@ public:
         // - Tip: if tailNode exists, break the cycle first: tailNode->nextNode = nullptr
         // - Then delete like a normal singly linked list
 
+        if (tailNode == nullptr) {
+            return;
+        }
+
         tailNode->nextNode = nullptr;
         current = headNode;
-        int count = countSpaces();
-        for (int i = 0; i = count; i++) {
+        while (current != nullptr) {
+            Node<T>* next = current->nextNode;
             delete current;
-            current = current->nextNode;
+            current = next;
         }
+
+        headNode = nullptr;
+        tailNode = nullptr;
+        playerNode = nullptr;
+        nodeCount = 0;
+        passGoCount = 0;
     }
 };
 
@@ -316,7 +348,6 @@ int main() {
     //
     // NOTE: This starter calls addSpace once to show the intended API,
     // but your final submission should build a meaningful board.
-    board.addSpace(MonopolySpace("GO", "None", 0, 0));
 
     vector<MonopolySpace> spaces;
 
@@ -383,11 +414,9 @@ int main() {
 
     board.removeByName("Reading Railroad");
     vector<string> brownProps = board.findByColor("Brown");
-    cout << brownProps[0] << endl;
+    if (!brownProps.empty()) {
+        cout << brownProps[0] << endl;
+    }
 
     return 0;
-
-
-
-
 }
