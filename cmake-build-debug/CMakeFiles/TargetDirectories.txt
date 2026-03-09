@@ -1,0 +1,3 @@
+C:/Users/kailo/CLionProjects/CS210Project1/cmake-build-debug/CMakeFiles/CS210Project1.dir
+C:/Users/kailo/CLionProjects/CS210Project1/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/Users/kailo/CLionProjects/CS210Project1/cmake-build-debug/CMakeFiles/rebuild_cache.dir

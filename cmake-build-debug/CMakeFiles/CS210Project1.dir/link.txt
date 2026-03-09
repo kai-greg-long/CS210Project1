@@ -1,0 +1,3 @@
+"C:\Jetbrains\CLion 2025.3.2\bin\cmake\win\x64\bin\cmake.exe" -E rm -f CMakeFiles\CS210Project1.dir/objects.a
+C:\JETBRA~1\CLION2~1.2\bin\mingw\bin\ar.exe qc CMakeFiles\CS210Project1.dir/objects.a @CMakeFiles\CS210Project1.dir\objects1.rsp
+C:\JETBRA~1\CLION2~1.2\bin\mingw\bin\G__~1.EXE -g -Wl,--whole-archive CMakeFiles\CS210Project1.dir/objects.a -Wl,--no-whole-archive -o CS210Project1.exe -Wl,--out-implib,libCS210Project1.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\CS210Project1.dir\linkLibs.rsp
